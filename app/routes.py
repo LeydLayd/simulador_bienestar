@@ -23,10 +23,10 @@ def retirar(id):
 
         if amount <= 0:
             flash('La cantidad debe ser mayor que cero.', 'error')
-        elif user.balance > amount:
+        elif user.balance < amount:
             flash('Fondos insuficientes.', 'error')
         else:
-            user.balance += amount
+            user.balance -= amount
             db.session.commit()
             flash(f'Retiro exitoso de ${amount:.2f}', 'success')
             return redirect(url_for('main.index'))
