@@ -1,0 +1,20 @@
+{% if users %}
+    <div class="users-grid">
+        {% for user in users %}
+            <div class="user-card">
+                <p><strong>Número:</strong> {{ user.car_number }}</p>
+                <p><strong>PIN:</strong> {{ user.pin }}</p>
+                <p><strong>Nombre:</strong> {{ user.name }}</p>
+                <p><strong>Saldo:</strong> ${{ "%.2f"|format(user.balance) }}</p>
+
+                <div class="note-actions">
+                    <a href="{{ url_for('main.retirar', id=user.id) }}" class="btn btn-sm btn-secondary" title="Retirar">
+                        Retirar
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No hay usuarios registrados.</p>
+{% endif %}
