@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<form method="POST" class="pin-form">
+    <h2>Ingresa tu NIP</h2>
+    
+    <div class="form-group">
+        <label for="pin">NIP de 4 dígitos</label>
+        <input 
+            type="password"
+            id="pin" 
+            name="pin"
+            class="form-control"
+            pattern="[0-9]{4}"
+            maxlength="4"
+            inputmode="numeric"
+            required
+        >
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Aceptar</button>
+        <button type="reset" class="btn btn-secondary">Cancelar</button>
+    </div>
+</form>
+{% endblock %}

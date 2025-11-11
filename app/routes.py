@@ -7,8 +7,43 @@ bp = Blueprint('main', __name__)
 
 @bp.route('/')
 def index():
-    users = User.query.order_by(User.updated_at.desc()).all()
-    return render_template('index.html', users=users)
+    users = User.query.first()
+    return render_template('index.html', user=users)
+
+@bp.route('/pin/<int:id>', methods=['GET', 'POST'])
+def insertar_pin(id):
+    user = User.query.get_or_404(id)
+
+    if request.method == 'POST':
+        pin_ingresado = request.form.get('pin')
+
+        if not pin_ingresado:
+            flash('Por favor, ingresa tu PIN.', 'error')
+            return redirect(url_for('main.insertar_pin', id=id))
+
+        if pin_ingresado == user.pin:
+            flash('PIN correcto. Bienvenido.', 'success')
+            return redirect(url_for('main.opciones',id=id))
+        else:
+            flash('PIN incorrecto. Inténtalo de nuevo.', 'error')
+            return redirect(url_for('main.insertar_pin', id=id))
+
+    return render_template('pin.html', user=user)
+
+
+@bp.route('/opciones/<int:id>')
+def opciones(id):
+    user = User.query.get_or_404(id)
+    return render_template('opciones.html', user=user)
+
+@bp.route('/consulta/<int:id>')
+def consulta(id):
+    user = User.query.get_or_404(id)
+    return render_template('consulta.html', user=user)
+
+@bp.route('/cambio')
+def cambio():
+    return render_template('cambio.html')
 
 @bp.route('/retirar/<int:id>', methods=['GET', 'POST'])
 def retirar(id):
@@ -29,6 +64,6 @@ def retirar(id):
             user.balance -= amount
             db.session.commit()
             flash(f'Retiro exitoso de ${amount:.2f}', 'success')
-            return redirect(url_for('main.index'))
+            return redirect(url_for('main.opciones',id=id))
 
     return render_template('retirar.html', user=user)

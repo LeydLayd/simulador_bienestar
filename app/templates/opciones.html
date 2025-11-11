@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="button-container">
+    <a href="{{ url_for('main.retirar', id=user.id) }}" class="btn btn-sm btn-secondary" title="Retirar">Retirar</a>
+    <a href="{{ url_for('main.consulta', id=user.id) }}" class="btn btn-primary">Consulta de Saldo</a>
+    <a href="{{ url_for('main.cambio') }}" class="btn btn-primary">Cambio de NIP</a>
+</div>
+{% endblock %}
